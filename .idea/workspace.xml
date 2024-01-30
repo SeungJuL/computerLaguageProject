@@ -4,23 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01bf8879-cd1d-4559-b788-aad81e6cebd7" name="Changes" comment="FIRST">
-      <change afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/build.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.jar" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradle/wrapper/gradle-wrapper.properties" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/gradlew.bat" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/plc/project/Lexer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/plc/project/ParseException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/plc/project/Token.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/plc/project/LexerTests.java" afterDir="false" />
-    </list>
+    <list default="true" id="01bf8879-cd1d-4559-b788-aad81e6cebd7" name="Changes" comment="FIRST" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -228,8 +212,17 @@
       <workItem from="1706480757130" duration="9275000" />
       <workItem from="1706551828639" duration="1801000" />
       <workItem from="1706560080152" duration="5452000" />
-      <workItem from="1706581036505" duration="324000" />
+      <workItem from="1706581036505" duration="1172000" />
     </task>
+    <task id="LOCAL-00001" summary="FIRST">
+      <option name="closed" value="true" />
+      <created>1706581497932</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1706581497932</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">

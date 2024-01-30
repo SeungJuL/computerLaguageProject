@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType;
 import java.util.ArrayList;
 import java.util.List;
 
+// git test for adding comment
 /**
  * The lexer works through three main functions:
  *
