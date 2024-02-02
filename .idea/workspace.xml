@@ -4,7 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="01bf8879-cd1d-4559-b788-aad81e6cebd7" name="Changes" comment="For test purpose" />
+    <list default="true" id="01bf8879-cd1d-4559-b788-aad81e6cebd7" name="Changes" comment="For test purpose2">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Lexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/plc/project/LexerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/plc/project/LexerTests.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,7 +25,17 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="PLC_Project" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
   </component>
@@ -37,33 +51,35 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.LexerTests.testCharacter.executor": "Run",
-    "Gradle.LexerTests.testDecimal.executor": "Run",
-    "Gradle.LexerTests.testExamples.executor": "Run",
-    "Gradle.LexerTests.testIdentifier.executor": "Run",
-    "Gradle.LexerTests.testInteger.executor": "Run",
-    "Gradle.LexerTests.testOperator.executor": "Run",
-    "Gradle.LexerTests.testString.executor": "Run",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "git-widget-placeholder": "sj1",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/Seungju/UF/COP4020/PLC_Project",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.LexerTests.testCharacter.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testDecimal.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testExamples.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testIdentifier.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testInteger.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testMixed.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testOperator.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testString.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.LexerTests.testWhitespace.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;sj1&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/Seungju/UF/COP4020/PLC_Project&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
-  <component name="RunManager" selected="Gradle.LexerTests.testInteger">
-    <configuration name="LexerTests.testCharacter" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+}</component>
+  <component name="RunManager" selected="Gradle.LexerTests.testOperator">
+    <configuration name="LexerTests.testIdentifier" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -76,31 +92,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testCharacter&quot;" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>true</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="LexerTests.testDecimal" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value=":test" />
-            <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testDecimal&quot;" />
+            <option value="&quot;plc.project.LexerTests.testIdentifier&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -135,6 +127,30 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="LexerTests.testMixed" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":test" />
+            <option value="--tests" />
+            <option value="&quot;plc.project.LexerTests.testMixed&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="LexerTests.testOperator" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -159,7 +175,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="LexerTests.testString" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="LexerTests.testWhitespace" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -172,7 +188,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testString&quot;" />
+            <option value="&quot;plc.project.LexerTests.testWhitespace&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -185,11 +201,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.LexerTests.testInteger" />
-        <item itemvalue="Gradle.LexerTests.testDecimal" />
-        <item itemvalue="Gradle.LexerTests.testCharacter" />
-        <item itemvalue="Gradle.LexerTests.testString" />
         <item itemvalue="Gradle.LexerTests.testOperator" />
+        <item itemvalue="Gradle.LexerTests.testWhitespace" />
+        <item itemvalue="Gradle.LexerTests.testMixed" />
+        <item itemvalue="Gradle.LexerTests.testIdentifier" />
+        <item itemvalue="Gradle.LexerTests.testInteger" />
       </list>
     </recent_temporary>
   </component>
@@ -212,7 +228,13 @@
       <workItem from="1706480757130" duration="9275000" />
       <workItem from="1706551828639" duration="1801000" />
       <workItem from="1706560080152" duration="5452000" />
-      <workItem from="1706581036505" duration="1337000" />
+      <workItem from="1706581036505" duration="2109000" />
+      <workItem from="1706641239044" duration="55000" />
+      <workItem from="1706674770782" duration="842000" />
+      <workItem from="1706729910055" duration="6831000" />
+      <workItem from="1706796516889" duration="40000" />
+      <workItem from="1706820016281" duration="7062000" />
+      <workItem from="1706898974156" duration="253000" />
     </task>
     <task id="LOCAL-00001" summary="FIRST">
       <option name="closed" value="true" />
@@ -230,7 +252,15 @@
       <option name="project" value="LOCAL" />
       <updated>1706583578565</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="For test purpose2">
+      <option name="closed" value="true" />
+      <created>1706583864719</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1706583864719</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -239,6 +269,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="FIRST" />
     <MESSAGE value="For test purpose" />
-    <option name="LAST_COMMIT_MESSAGE" value="For test purpose" />
+    <MESSAGE value="For test purpose2" />
+    <option name="LAST_COMMIT_MESSAGE" value="For test purpose2" />
   </component>
 </project>

@@ -32,11 +32,14 @@ public final class Lexer {
     public List<Token> lex() {
 
         List<Token> tokens = new ArrayList<>();
-        while (!chars.has(0)) {
+        while (chars.has(0)) {
+            if(!chars.has(1) && peek("[ \b\n\r\t]"))
+                break;
             Token token = lexToken();
             if (token != null) {
                 tokens.add(token);
             }
+
         }
         return tokens;
 
@@ -52,7 +55,7 @@ public final class Lexer {
      */
     public Token lexToken() {
         // Identifier
-        if(peek("[A-Za-z$@]"))
+        if(peek("[A-Za-z@_]"))
             return lexIdentifier();
         // Number
         else if(peek("[0-9-]"))
@@ -64,23 +67,23 @@ public final class Lexer {
         else if(peek("\""))
             return lexString();
         // Any white space character
-        else if(peek("\\[bnrt]")){
+        else if(peek("[ \b\n\r\t]")){
             lexEscape();
             return lexToken();
         }
         // Operator
-        else if(peek("[+-*/%?<>!=&|\\(\\)\\[\\]\\{\\};]"))
-            return lexOperator();
-        // If neither of these, throw Parse Exception
         else
-            throw new ParseException("Undefined behavior", chars.index);
+            return lexOperator();
 
     }
 
     public Token lexIdentifier() {
-        while(match("[A-Za-z0-9$_-]")){
+        if(match("[A-Za-z@]")){
+            while(match("[A-Za-z0-9_-]")){}
+            return chars.emit(Token.Type.IDENTIFIER);
         }
-        return chars.emit(Token.Type.IDENTIFIER);
+
+        throw new ParseException("Leading character is not allowed", chars.index);
     }
 
     public Token lexNumber() {
@@ -123,7 +126,7 @@ public final class Lexer {
             else{
                 throw new ParseException("undefined behavior", chars.index);
             }
-        }
+        } // end starting - if statement
         // Positive number and 0
         else {
             if(match("[1-9]")) {
@@ -206,7 +209,7 @@ public final class Lexer {
     }
 
     public void lexEscape() {
-        match("\\[bnrt]");
+        match("[ \b\n\r\t]");
         chars.skip();
     }
 
@@ -215,17 +218,25 @@ public final class Lexer {
         if(match("[?\\(\\)\\[\\]\\{\\};]")){
             return chars.emit(Token.Type.OPERATOR);
         }
-        else if(match("[+-*/%<>!]")){
+        else if(match("[=!]")){ // remove
             if(peek("=")){
                 match("=");
             }
             return chars.emit(Token.Type.OPERATOR);
         }
-        else if(match("=", "="))
-            return chars.emit(Token.Type.OPERATOR);
-        else if(match("&", "&"))
-            return chars.emit(Token.Type.OPERATOR);
-        else if(match("|", "|"))
+        else if(match("&")){
+            if(match("&"))
+                return chars.emit(Token.Type.OPERATOR);
+            else
+                throw new ParseException("single & not allowed", chars.index);
+        }
+        else if(match("|")){
+            if(match("|"))
+                return chars.emit(Token.Type.OPERATOR);
+            else
+                throw new ParseException("single | not allowed", chars.index);
+        }
+        else if(match("[^\s]"))
             return chars.emit(Token.Type.OPERATOR);
 
         throw new ParseException("undefined behavior", chars.index);
@@ -291,7 +302,7 @@ public final class Lexer {
             length++;
         }
 
-        public void back(){
+        public void back(){ // ask prof.
             index--;
             length--;
         }
