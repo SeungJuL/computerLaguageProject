@@ -13,4 +13,11 @@ public final class ParseException extends RuntimeException {
         return index;
     }
 
+    @Override
+    public boolean equals(Object obj) {
+        return obj instanceof ParseException &&
+                super.getMessage().equals(((ParseException)obj).getMessage()) &&
+                index == ((ParseException) obj).index;
+    }
+
 }

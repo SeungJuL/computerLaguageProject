@@ -5,9 +5,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01bf8879-cd1d-4559-b788-aad81e6cebd7" name="Changes" comment="For test purpose2">
+      <change afterPath="$PROJECT_DIR$/src/main/java/plc/project/Ast.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Lexer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/plc/project/LexerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/plc/project/LexerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/ParseException.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/ParseException.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -46,40 +46,53 @@
   &quot;associatedIndex&quot;: 2
 }</component>
   <component name="ProjectId" id="2bY3B5xxzI1r42T4rDDsDqcAFPw" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.LexerTests.testCharacter.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testDecimal.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testExamples.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testIdentifier.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testInteger.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testMixed.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testOperator.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testString.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testWhitespace.executor&quot;: &quot;Run&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sj1&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Seungju/UF/COP4020/PLC_Project&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Gradle.LexerTests.testCharacter.executor": "Run",
+    "Gradle.LexerTests.testDecimal.executor": "Run",
+    "Gradle.LexerTests.testExamples.executor": "Run",
+    "Gradle.LexerTests.testIdentifier.executor": "Run",
+    "Gradle.LexerTests.testInteger.executor": "Run",
+    "Gradle.LexerTests.testMixed.executor": "Run",
+    "Gradle.LexerTests.testOperator.executor": "Run",
+    "Gradle.LexerTests.testString.executor": "Run",
+    "Gradle.LexerTests.testWhitespace.executor": "Run",
+    "Gradle.ParserExpressionTests.executor": "Run",
+    "Gradle.ParserExpressionTests.testAccessExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testAssignmentStatement.executor": "Run",
+    "Gradle.ParserExpressionTests.testBinaryExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testException (1).executor": "Debug",
+    "Gradle.ParserExpressionTests.testException.executor": "Run",
+    "Gradle.ParserExpressionTests.testExpressionStatement.executor": "Run",
+    "Gradle.ParserExpressionTests.testFunctionExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testGroupExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testLiteralExpression.executor": "Run",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "sj1",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Seungju/UF/COP4020/PLC_Project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Gradle.LexerTests.testOperator">
-    <configuration name="LexerTests.testIdentifier" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+}]]></component>
+  <component name="RunManager" selected="Gradle.ParserExpressionTests.testException">
+    <configuration name="ParserExpressionTests.testAccessExpression" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -92,7 +105,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testIdentifier&quot;" />
+            <option value="&quot;plc.project.ParserExpressionTests.testAccessExpression&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -103,7 +116,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="LexerTests.testInteger" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ParserExpressionTests.testException (1)" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -116,7 +129,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testInteger&quot;" />
+            <option value="&quot;plc.project.ParserExpressionTests.testException[5]&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -127,7 +140,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="LexerTests.testMixed" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ParserExpressionTests.testException" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -140,7 +153,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testMixed&quot;" />
+            <option value="&quot;plc.project.ParserExpressionTests.testException&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -151,7 +164,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="LexerTests.testOperator" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ParserExpressionTests.testFunctionExpression" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -164,7 +177,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testOperator&quot;" />
+            <option value="&quot;plc.project.ParserExpressionTests.testFunctionExpression&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -175,7 +188,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="LexerTests.testWhitespace" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ParserExpressionTests.testLiteralExpression" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -188,7 +201,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.LexerTests.testWhitespace&quot;" />
+            <option value="&quot;plc.project.ParserExpressionTests.testLiteralExpression&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -201,11 +214,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.LexerTests.testOperator" />
-        <item itemvalue="Gradle.LexerTests.testWhitespace" />
-        <item itemvalue="Gradle.LexerTests.testMixed" />
-        <item itemvalue="Gradle.LexerTests.testIdentifier" />
-        <item itemvalue="Gradle.LexerTests.testInteger" />
+        <item itemvalue="Gradle.ParserExpressionTests.testException" />
+        <item itemvalue="Gradle.ParserExpressionTests.testException (1)" />
+        <item itemvalue="Gradle.ParserExpressionTests.testAccessExpression" />
+        <item itemvalue="Gradle.ParserExpressionTests.testFunctionExpression" />
+        <item itemvalue="Gradle.ParserExpressionTests.testLiteralExpression" />
       </list>
     </recent_temporary>
   </component>
@@ -235,6 +248,16 @@
       <workItem from="1706796516889" duration="40000" />
       <workItem from="1706820016281" duration="7062000" />
       <workItem from="1706898974156" duration="253000" />
+      <workItem from="1706909294137" duration="156000" />
+      <workItem from="1707854991707" duration="79000" />
+      <workItem from="1707855091821" duration="10009000" />
+      <workItem from="1707934600104" duration="2187000" />
+      <workItem from="1707940487946" duration="34000" />
+      <workItem from="1707943648624" duration="5729000" />
+      <workItem from="1707963368580" duration="23000" />
+      <workItem from="1708021505311" duration="7503000" />
+      <workItem from="1708032507975" duration="132000" />
+      <workItem from="1708032672250" duration="935000" />
     </task>
     <task id="LOCAL-00001" summary="FIRST">
       <option name="closed" value="true" />
@@ -267,9 +290,57 @@
     <option name="version" value="3" />
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="FIRST" />
     <MESSAGE value="For test purpose" />
     <MESSAGE value="For test purpose2" />
     <option name="LAST_COMMIT_MESSAGE" value="For test purpose2" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/plc/project/ParserExpressionTests.java</url>
+          <line>228</line>
+          <properties class="plc.project.ParserExpressionTests">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/plc/project/ParserExpressionTests.java</url>
+          <line>324</line>
+          <properties class="plc.project.ParserExpressionTests">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Parser.java</url>
+          <line>223</line>
+          <properties class="plc.project.Parser">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/test/java/plc/project/ParserExpressionTests.java</url>
+          <line>261</line>
+          <properties class="plc.project.ParserExpressionTests" method="testException">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="16" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Parser.java</url>
+          <line>90</line>
+          <option name="timeStamp" value="15" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
