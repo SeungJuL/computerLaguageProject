@@ -31,7 +31,17 @@ public final class Parser {
      * Parses the {@code source} rule.
      */
     public Ast.Source parseSource() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        List<Ast.Global> globals = new ArrayList<>();
+        List<Ast.Function> functions = new ArrayList<>();
+        while(peek("LIST") || peek("VAR") || peek("VAL"))
+            globals.add(parseGlobal());
+        while(peek("FUN")){
+            functions.add(parseFunction());
+        }
+        if(tokens.has(0))
+            throw  new ParseException("Something wrong in the source", get_index(tokens));
+
+        return new Ast.Source(globals, functions);
     }
 
     /**
@@ -39,7 +49,16 @@ public final class Parser {
      * next tokens start a global, aka {@code LIST|VAL|VAR}.
      */
     public Ast.Global parseGlobal() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        if(match("LIST")){
+            return parseList();
+        }
+        else if(match("VAR")){
+            return parseMutable();
+        }
+        else if(match("VAL")){
+            return parseImmutable();
+        }
+        throw new ParseException("Error in parse Global", 0);
     }
 
     /**
@@ -47,7 +66,28 @@ public final class Parser {
      * next token declares a list, aka {@code LIST}.
      */
     public Ast.Global parseList() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+//        list ::= 'LIST' identifier '=' '[' expression (',' expression)* ']'
+//        LIST list = [expr];
+        if(!match(Token.Type.IDENTIFIER))
+            throw new ParseException("Missing : Identifier", get_index(tokens));
+        String name = tokens.get(-1).getLiteral();
+        if(!match("=", "["))
+            throw new ParseException("Missing : = or [", get_index(tokens));
+
+        List<Ast.Expression> exps = new ArrayList<>(); // to build the list -> create ast plcList
+        exps.add(parseExpression());
+        while(match(",")){
+            exps.add(parseExpression());
+        }
+        Ast.Expression.PlcList value = new Ast.Expression.PlcList(exps);
+
+       if(!match("]"))
+           throw new ParseException("Missing : ]", get_index(tokens));
+       if(!match(";"))
+           throw new ParseException("Missing : ;", get_index(tokens));
+
+
+        return new Ast.Global(name, true, Optional.of(value));
     }
 
     /**
@@ -55,7 +95,20 @@ public final class Parser {
      * next token declares a mutable global variable, aka {@code VAR}.
      */
     public Ast.Global parseMutable() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        //'VAR' identifier ('=' expression)?
+        if(!match(Token.Type.IDENTIFIER))
+            throw new ParseException("Missing : Identifier", get_index(tokens));
+        String name = tokens.get(-1).getLiteral();
+        if(match("=")){
+            Ast.Expression exp = parseExpression();
+            if(!match(";"))
+                throw new ParseException("Missing : ;", get_index(tokens));
+            return new Ast.Global(name, true, Optional.of(exp));
+        }
+
+        if(!match(";"))
+            throw new ParseException("Missing : ;", get_index(tokens));
+        return new Ast.Global(name, true, Optional.empty());
     }
 
     /**
@@ -63,7 +116,20 @@ public final class Parser {
      * next token declares an immutable global variable, aka {@code VAL}.
      */
     public Ast.Global parseImmutable() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        //'VAL' identifier '=' expression
+        if(!match(Token.Type.IDENTIFIER))
+            throw new ParseException("Missing : Identifier", get_index(tokens));
+        String name = tokens.get(-1).getLiteral(); // name
+
+        if(!match("="))
+            throw new ParseException("Missing : =", get_index(tokens));
+
+        Ast.Expression exp = parseExpression(); // expression
+
+        if(!match(";"))
+            throw new ParseException("Missing : ;", get_index(tokens));
+
+        return new Ast.Global(name, false, Optional.of(exp));
     }
 
     /**
@@ -71,15 +137,46 @@ public final class Parser {
      * next tokens start a method, aka {@code FUN}.
      */
     public Ast.Function parseFunction() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        //'FUN' identifier '(' (identifier (',' identifier)* )? ')' 'DO' block 'END'
+        match("FUN");
+        if(!match(Token.Type.IDENTIFIER))
+            throw new ParseException("Missing : Identifier", get_index(tokens));
+        String name = tokens.get(-1).getLiteral(); // name
+
+        if(!match("("))
+            throw new ParseException("Missing : (", get_index(tokens));
+
+        List<String> parameters = new ArrayList<>();
+        if(match(Token.Type.IDENTIFIER)){
+            parameters.add(tokens.get(-1).getLiteral());
+            while(match(",")){
+                if(!match(Token.Type.IDENTIFIER))
+                    throw new ParseException("Missing : Identifier", get_index(tokens));
+                parameters.add(tokens.get(-1).getLiteral());
+            }
+        }
+        if(!match(")"))
+            throw new ParseException("Missing : )", get_index(tokens));
+        if(!match("DO"))
+            throw new ParseException("Missing : DO", get_index(tokens));
+
+        List<Ast.Statement> statements = parseBlock();
+
+        if(!match("END"))
+            throw new ParseException("Missing : END", get_index(tokens));
+
+        return new Ast.Function(name, parameters, statements);
     }
 
     /**
      * Parses the {@code block} rule. This method should only be called if the
      * preceding token indicates the opening a block of statements.
      */
-    public List<Ast.Statement> parseBlock() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+    public List<Ast.Statement> parseBlock() throws ParseException {  // not sure about this
+        List<Ast.Statement> statements = new ArrayList<>();
+        while(!peek("DEFAULT") && !peek("ELSE") && !peek("END"))
+            statements.add(parseStatement());
+        return statements;
     }
 
     /**
@@ -88,16 +185,39 @@ public final class Parser {
      * statement, then it is an expression/assignment statement.
      */
     public Ast.Statement parseStatement() throws ParseException {
-        Ast.Expression expr1 = parseExpression();
-        if(match("=")){
-            Ast.Expression expr2 = parseExpression();
-            if(!match(";"))
-                throw new ParseException("Missing ;", tokens.get(-1).getIndex() + tokens.get(-1).getLiteral().length());
-            return new Ast.Statement.Assignment(expr1, expr2);
+        if(match("LET")){
+            return parseDeclarationStatement();
         }
-        if(!match(";"))
-            throw new ParseException("Missing ;", tokens.get(-1).getIndex() + tokens.get(-1).getLiteral().length());
-        return new Ast.Statement.Expression(expr1);
+        else if(match("SWITCH")){
+            return parseSwitchStatement();
+        }
+
+        else if(match("IF")){
+            return parseIfStatement();
+        }
+
+        else if(match("WHILE")){
+            return parseWhileStatement();
+        }
+
+        else if(match("RETURN")){
+            return parseReturnStatement();
+        }
+        else{
+            //expression ('=' expression)? ';'
+            Ast.Expression expr1 = parseExpression();
+
+            if(match("=")){
+                Ast.Expression expr2 = parseExpression();
+                if(!match(";"))
+                    throw new ParseException("Missing ;", get_index(tokens));
+                return new Ast.Statement.Assignment(expr1, expr2);
+            }
+            if(!match(";"))
+                throw new ParseException("Missing ;", get_index(tokens));
+            return new Ast.Statement.Expression(expr1);
+
+        }
     }
 
     /**
@@ -106,7 +226,21 @@ public final class Parser {
      * statement, aka {@code LET}.
      */
     public Ast.Statement.Declaration parseDeclarationStatement() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        if(match(Token.Type.IDENTIFIER)){
+            String name = tokens.get(-1).getLiteral();
+            if(match("=")){
+                Ast.Expression exp = parseExpression();
+                if(!match(";"))
+                    throw new ParseException("Missing ;", get_index(tokens));
+
+                return new Ast.Statement.Declaration(name, Optional.of(exp));
+            }
+            if(!match(";"))
+                throw new ParseException("Missing ;", get_index(tokens));
+
+            return new Ast.Statement.Declaration(name, Optional.empty());
+        }
+        throw new ParseException("identifier missing", get_index(tokens));
     }
 
     /**
@@ -115,7 +249,19 @@ public final class Parser {
      * {@code IF}.
      */
     public Ast.Statement.If parseIfStatement() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        Ast.Expression exp = parseExpression();
+        if(match("DO")){
+            List<Ast.Statement> statements1 = parseBlock();
+            List<Ast.Statement> statements2 = new ArrayList<>();
+            if(match("ELSE")){
+                statements2 = parseBlock();
+            }
+            if(match("END")){
+                return new Ast.Statement.If(exp, statements1, statements2);
+            }
+            throw new ParseException("Missing : End", get_index(tokens));
+        }
+        throw new ParseException("Missing : Do", get_index(tokens));
     }
 
     /**
@@ -124,7 +270,22 @@ public final class Parser {
      * {@code SWITCH}.
      */
     public Ast.Statement.Switch parseSwitchStatement() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        // 'SWITCH' expression ('CASE' expression ':' block)* 'DEFAULT' block 'END' |
+        Ast.Expression exp = parseExpression();
+        List<Ast.Statement.Case> cases = new ArrayList<>();
+        while(match("CASE")){
+            cases.add(parseCaseStatement());
+        }
+        if(!match("DEFAULT"))
+            throw new ParseException("Missing : Default", get_index(tokens));
+
+        List<Ast.Statement> statements = parseBlock();
+        cases.add(new Ast.Statement.Case(Optional.empty(), statements));
+
+        if(!match("END"))
+            throw new ParseException("Missing : END", get_index(tokens));
+        return new Ast.Statement.Switch(exp, cases);
+
     }
 
     /**
@@ -133,7 +294,13 @@ public final class Parser {
      * default block of a switch statement, aka {@code CASE} or {@code DEFAULT}.
      */
     public Ast.Statement.Case parseCaseStatement() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        //('CASE' expression ':' block)
+        Ast.Expression exp = parseExpression();
+        if(!match(":"))
+            throw new ParseException("Missing : sign", get_index(tokens));
+        List<Ast.Statement> statements = parseBlock();
+        return new Ast.Statement.Case(Optional.of(exp), statements);
+
     }
 
     /**
@@ -142,7 +309,17 @@ public final class Parser {
      * {@code WHILE}.
      */
     public Ast.Statement.While parseWhileStatement() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        //'WHILE' expression 'DO' block 'END'
+        Ast.Expression exp = parseExpression();
+        if(!match("DO"))
+            throw new ParseException("Missing : DO", get_index(tokens));
+
+        List<Ast.Statement> statements = parseBlock();
+
+        if(!match("END"))
+            throw new ParseException("Missing : END", get_index(tokens));
+        return new Ast.Statement.While(exp, statements);
+
     }
 
     /**
@@ -151,7 +328,11 @@ public final class Parser {
      * {@code RETURN}.
      */
     public Ast.Statement.Return parseReturnStatement() throws ParseException {
-        throw new UnsupportedOperationException(); //TODO
+        //'RETURN' expression ';'
+        Ast.Expression exp = parseExpression();
+        if(!match(";"))
+            throw new ParseException("Missing : ;", get_index(tokens));
+        return new Ast.Statement.Return(exp);
     }
 
     /**
@@ -226,7 +407,7 @@ public final class Parser {
         else if (match("TRUE")) {
             return new Ast.Expression.Literal(true);
         }
-        else if (match("False")){
+        else if (match("FALSE")){
             return new Ast.Expression.Literal(false);
         }
         else if (match(Token.Type.INTEGER)) {
@@ -248,29 +429,30 @@ public final class Parser {
         else if (match("(")) {
             Ast.Expression expression = parseExpression();
             if (!match(")")) {
-                throw new ParseException("Expected ')'", tokens.get(-1).getIndex() + tokens.get(-1).getLiteral().length());
+                throw new ParseException("Expected ')'", get_index(tokens));
             }
             return new Ast.Expression.Group(expression);
         }
         else if (match(Token.Type.IDENTIFIER)) {
             String name = tokens.get(-1).getLiteral(); // identifier
-            if (match("(")) { // (
-                List<Ast.Expression> args = new ArrayList<>();
-                if (!peek(")")) {
-                    do {// expression
+
+            if (match("(")) { //('(' (expression (',' expression)*)? ')')?
+                List<Ast.Expression> args = new ArrayList<>(); // arguments
+                if(!peek(")")){
+                    args.add(parseExpression());
+                    while(match(",")){
                         args.add(parseExpression());
                     }
-                    while (match(","));
-                    if (!match(")")) {
-                        throw new ParseException("Expected ')'", tokens.get(-1).getIndex() + tokens.get(-1).getLiteral().length());
-                    }
                 }
+                if(!match(")"))
+                    throw new ParseException("Expected ')'", get_index(tokens));
+
                 return new Ast.Expression.Function(name, args);
             }
             else if (match("[")) {
                 Ast.Expression expr = parseExpression();
                 if (!match("]")) {
-                    throw new ParseException("Expected ']'", tokens.get(-1).getIndex() + tokens.get(-1).getLiteral().length());
+                    throw new ParseException("Expected ']'", get_index(tokens));
                 }
                 return new Ast.Expression.Access(Optional.of(expr), name);
             }
@@ -279,7 +461,7 @@ public final class Parser {
             }
         }
         if(tokens.index > 0)
-            throw new ParseException("Expected expression", tokens.get(-1).getIndex() + tokens.get(-1).getLiteral().length());
+            throw new ParseException("Expected expression", get_index(tokens));
         throw new ParseException("Expected expression", 0);
 
     }
@@ -329,6 +511,13 @@ public final class Parser {
             }
         }
         return peek;
+    }
+
+    private int get_index(TokenStream t){
+        if(t.has(0))
+            return t.get(0).getIndex();
+        else
+            return t.get(-1).getIndex() + t.get(-1).getLiteral().length();
     }
 
     private String rp(String s){
