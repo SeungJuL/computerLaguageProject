@@ -73,9 +73,13 @@ final class ParserExpressionTests {
 
     private static Stream<Arguments> testLiteralExpression() {
         return Stream.of(
-                Arguments.of("Boolean Literal",
+                Arguments.of("Boolean Literal1",
                         Arrays.asList(new Token(Token.Type.IDENTIFIER, "TRUE", 0)),
                         new Ast.Expression.Literal(Boolean.TRUE)
+                ),
+                Arguments.of("Boolean Literal2",
+                        Arrays.asList(new Token(Token.Type.IDENTIFIER, "FALSE", 0)),
+                        new Ast.Expression.Literal(Boolean.FALSE)
                 ),
                 Arguments.of("Integer Literal",
                         Arrays.asList(new Token(Token.Type.INTEGER, "1", 0)),
@@ -85,13 +89,21 @@ final class ParserExpressionTests {
                         Arrays.asList(new Token(Token.Type.DECIMAL, "2.0", 0)),
                         new Ast.Expression.Literal(new BigDecimal("2.0"))
                 ),
-                Arguments.of("Character Literal",
-                        Arrays.asList(new Token(Token.Type.CHARACTER, "'c'", 0)),
+                Arguments.of("Character Literal1",
+                        Arrays.asList(new Token(Token.Type.CHARACTER, "\'c\'", 0)),
                         new Ast.Expression.Literal('c')
                 ),
-                Arguments.of("String Literal",
+                Arguments.of("Character Literal2",
+                        Arrays.asList(new Token(Token.Type.CHARACTER, "\'\\\'", 0)),
+                        new Ast.Expression.Literal('\\')
+                ),
+                Arguments.of("String Literal1",
                         Arrays.asList(new Token(Token.Type.STRING, "\"string\"", 0)),
                         new Ast.Expression.Literal("string")
+                ),
+                Arguments.of("String Literal2",
+                        Arrays.asList(new Token(Token.Type.STRING, "\"\'\"", 0)),
+                        new Ast.Expression.Literal("\'")
                 ),
                 Arguments.of("Escape Character",
                         Arrays.asList(new Token(Token.Type.STRING, "\"Hello,\\nWorld!\"", 0)),
@@ -292,6 +304,20 @@ final class ParserExpressionTests {
                         new ParseException("Expected ')'", 5)
                 ),
 
+                Arguments.of("Invalid Expression in parenthesis",
+                        Arrays.asList(
+                                //?
+                                //name(expr1, expr2, expr3)
+                                new Token(Token.Type.IDENTIFIER, "name", 0),
+                                new Token(Token.Type.OPERATOR, "(", 4),
+                                new Token(Token.Type.IDENTIFIER, "expr1", 5),
+                                new Token(Token.Type.OPERATOR, ",", 10),
+                                new Token(Token.Type.OPERATOR, "=", 12),
+                                new Token(Token.Type.OPERATOR, ")", 13)
+                        ),
+                        new ParseException("Expected expression", 12)
+                ),
+
                 Arguments.of("Invalid Closing Parenthesis",
                         Arrays.asList(
                                 //?
@@ -301,11 +327,64 @@ final class ParserExpressionTests {
                         ),
                         new ParseException("Expected expression", 1)
                 )
-
-
-
         );
     }
+
+    @ParameterizedTest
+    @MethodSource
+    void testExceptionStatement(String test, List<Token> tokens, ParseException expected) {
+        testParseException(tokens, expected, Parser::parseStatement);
+    }
+
+    private static Stream<Arguments> testExceptionStatement() {
+        return Stream.of(
+                Arguments.of("Function Expression",
+                        Arrays.asList(
+                                //name();
+                                new Token(Token.Type.IDENTIFIER, "f", 0)
+                        ),
+                        new ParseException("Missing ;", 1)
+                ),
+                Arguments.of("Invalid DO1",
+                        Arrays.asList(
+                                //IF expr THEN
+                                new Token(Token.Type.IDENTIFIER, "IF", 0),
+                                new Token(Token.Type.IDENTIFIER, "expr", 3),
+                                new Token(Token.Type.IDENTIFIER, "THEN", 8)
+                        ),
+                        new ParseException("Missing : Do", 8)
+                ),
+                Arguments.of("Invalid Return statement",
+                        Arrays.asList(
+                                // RETURN expr expr2
+                                new Token(Token.Type.IDENTIFIER, "RETURN", 0),
+                                new Token(Token.Type.IDENTIFIER, "expr", 7),
+                                new Token(Token.Type.IDENTIFIER, "expr2", 12)
+                        ),
+                        new ParseException("Missing : ;", 12)
+                ),
+                Arguments.of("Invalid Declaration statement",
+                        Arrays.asList(
+                                // RETURN expr expr2
+                                new Token(Token.Type.IDENTIFIER, "LET", 0),
+                                new Token(Token.Type.OPERATOR, "=", 4)
+                        ),
+                        new ParseException("identifier missing", 4)
+                ),
+                Arguments.of("Invalid DO2",
+                        Arrays.asList(
+                                //IF expr THEN
+                                new Token(Token.Type.IDENTIFIER, "IF", 0),
+                                new Token(Token.Type.IDENTIFIER, "expr", 3)
+                        ),
+                        new ParseException("Missing : Do", 7)
+                )
+        );
+    }
+
+
+
+
 
 
 
