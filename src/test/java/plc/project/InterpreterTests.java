@@ -44,6 +44,23 @@ final class InterpreterTests {
                                         new Ast.Expression.Access(Optional.empty(), "y")                                ))
                         )))
                 ), Environment.NIL.getValue())
+
+//                Arguments.of("Globals & No Return", new Ast.Source(
+//                        Arrays.asList(
+//                                new Ast.Global("x", true, Optional.of(new Ast.Expression.Literal(BigInteger.ONE))),
+//                                new Ast.Global("y", true, Optional.of(new Ast.Expression.Literal(BigInteger.TWO))),
+//                                new Ast.Global("z", true, Optional.of(new Ast.Expression.Literal(BigInteger.valueOf(3))))
+//                        ),
+//                        Arrays.asList(new Ast.Function("f", Arrays.asList(), Arrays.asList(
+//                                new Ast.Statement.Return()
+//                        ))),
+//                        Arrays.asList(new Ast.Function("main", Arrays.asList(), Arrays.asList(
+//                                new Ast.Statement.Expression(new Ast.Expression.Binary("+",
+//                                        new Ast.Expression.Access(Optional.empty(), "x"),
+//                                        new Ast.Expression.Access(Optional.empty(), "y")                                ))
+//                        )))
+//                ), Environment.NIL.getValue())
+
         );
     }
 
@@ -88,6 +105,7 @@ final class InterpreterTests {
 
     private static Stream<Arguments> testFunction() {
         return Stream.of(
+
                 // FUN main() DO RETURN 0; END
                 Arguments.of("Main",
                         new Ast.Function("main", Arrays.asList(), Arrays.asList(
@@ -212,16 +230,16 @@ final class InterpreterTests {
     void testSwitchStatement() {
         // SWITCH letter CASE 'y': print("yes"); letter = 'n'; DEFAULT: print("no"); END
         Scope scope = new Scope(null);
-        scope.defineVariable("letter", true, Environment.create(new Character('y')));
+        scope.defineVariable("letter", true, Environment.create('y'));
 
         List<Ast.Statement> statements = Arrays.asList(
                 new Ast.Statement.Expression(new Ast.Expression.Function("print", Arrays.asList(new Ast.Expression.Literal("yes")))),
                 new Ast.Statement.Assignment(new Ast.Expression.Access(Optional.empty(), "letter"),
-                                             new Ast.Expression.Literal(new Character('n')))
+                                             new Ast.Expression.Literal('n'))
         );
 
         List<Ast.Statement.Case> cases = Arrays.asList(
-                new Ast.Statement.Case(Optional.of(new Ast.Expression.Literal(new Character('y'))), statements),
+                new Ast.Statement.Case(Optional.of(new Ast.Expression.Literal('y')), statements),
                 new Ast.Statement.Case(Optional.empty(), Arrays.asList(new Ast.Statement.Expression(new Ast.Expression.Function("print", Arrays.asList(new Ast.Expression.Literal("no"))))))
         );
 
@@ -237,7 +255,7 @@ final class InterpreterTests {
             System.setOut(sysout);
         }
 
-        Assertions.assertEquals(new Character('n'), scope.lookupVariable("letter").getValue().getValue());
+        Assertions.assertEquals('n', scope.lookupVariable("letter").getValue().getValue());
     }
 
     @Test
@@ -435,6 +453,17 @@ final class InterpreterTests {
         Ast ast = new Ast.Expression.PlcList(values);
 
         test(ast, expected, new Scope(null));
+    }
+
+    @Test
+    void testLogarithmExpressionStatement(){
+        Scope scope = new Scope(null);
+        test( new Ast.Expression.Function(
+                    "logarithm",
+                    List.of(new Ast.Expression.Literal(BigDecimal.valueOf(Math.E)))),
+                BigDecimal.valueOf(1.0),
+                scope
+        );
     }
 
     private static Scope test(Ast ast, Object expected, Scope scope) {
