@@ -1,5 +1,6 @@
 package plc.project;
 
+import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.math.BigInteger;
 import java.math.RoundingMode;
@@ -17,6 +18,12 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
             System.out.println(args.get(0).getValue());
             return Environment.NIL;
         });
+//
+//        StringWriter writer = new StringWriter();
+//        scope.defineFunction("log", 1, args -> {
+//            writer.write(String.valueOf(args.get(0).getValue()));
+//            return args.get(0);
+//        });
 
         scope.defineFunction("logarithm", 1 , args -> {
             if ( !( args.get(0).getValue() instanceof BigDecimal)){
@@ -33,12 +40,31 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
             return Environment.create(result);
         });
 
-//        scope.defineFunction("converter", 2, args->{
-//
-//            BigInteger decimal = requireType(BigInteger.class, Environment.create(args.get(0).getValue()));
-//            BigInteger base = requireType(BigInteger.class, Environment.create(args.get(1).getValue()));
-//
-//        });
+        scope.defineFunction("converter", 2, args->{
+
+            String number = new String();
+            int i, n = 0;
+            ArrayList<BigInteger> quotients = new ArrayList<>();
+            ArrayList<BigInteger> remainders = new ArrayList<>();
+
+
+            BigInteger decimal = requireType(BigInteger.class, Environment.create(args.get(0).getValue()));
+            BigInteger base = requireType(BigInteger.class, Environment.create(args.get(1).getValue()));
+
+            quotients.add(decimal);
+            do{
+                quotients.add(quotients.get(n).divide(base));
+                remainders.add(
+                        quotients.get(n).subtract((quotients.get(n+1).multiply(base)))
+                );
+            }
+            while(quotients.get(n).compareTo(BigInteger.ZERO) > 0);
+
+            for(i = 0; i < remainders.size(); i++){
+                number = remainders.get(i).toString() + number;
+            }
+            return Environment.create(number);
+        });
     }
 
     public Scope getScope() {
@@ -54,12 +80,9 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
             visit(function);
         }
 
-        try {
-            var mainFunction = scope.lookupFunction("main", 0);
-            return mainFunction.invoke(new ArrayList<>());
-        } catch (RuntimeException e) {
-            throw new RuntimeException("The main function has error.");
-        }
+        var mainFunction = scope.lookupFunction("main", 0);
+        return mainFunction.invoke(new ArrayList<>());
+
     }
 
     @Override
@@ -74,15 +97,14 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
 
     @Override
     public Environment.PlcObject visit(Ast.Function ast) {
+        Scope curr = scope;
         scope.defineFunction(ast.getName(), ast.getParameters().size(), arguments -> {
-            Scope curr = scope;
             try{
-                Scope child = new Scope(curr);
-                scope = child;
+                scope = new Scope(curr);
                 for(int i = 0; i < ast.getParameters().size(); i++){
                     String par_name = ast.getParameters().get(i);
                     var argument_value = arguments.get(i);
-                    child.defineVariable(par_name, true, argument_value);
+                    scope.defineVariable(par_name, true, argument_value);
                 }
 
                 for(var statement : ast.getStatements()){
@@ -93,7 +115,7 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
                 return e.value;
             }
             finally {
-                scope = curr;
+                scope = scope.getParent();
             }
             return Environment.NIL;
         });
@@ -169,7 +191,8 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
                 scope = scope.getParent();
             }
 
-        } else {
+        }
+        else {
             // Evaluate the elseStatements if the condition is false
             try{
                 scope = new Scope(scope);
@@ -266,7 +289,6 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
         var operator = ast.getOperator();
         var left = visit(ast.getLeft());
 
-
         switch(operator){
             case "&&":
                 if(requireType(Boolean.class, left)){
@@ -278,9 +300,9 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
                         return new Environment.PlcObject(scope, false);
                     }
                 }
-                else
+                else{
                     return new Environment.PlcObject(scope, false);
-
+                }
 
             case "||":
                 if(!requireType(Boolean.class, left)){ // if false
@@ -317,15 +339,17 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
                 else{
                     throw new RuntimeException("Something is wrong with visit <");
                 }
+
             case "==": // need to check this operator working good or not
                 if(left.getValue() instanceof Object left_value){
                     var right = visit(ast.getRight());
-                    boolean equals = left_value.equals(right);
+                    boolean equals = left_value.equals(right.getValue());
                     return new Environment.PlcObject(scope, equals);
                 }
                 else{
                     throw new RuntimeException("Something is wrong with ==");
                 }
+
             case "!=":
                 if(left.getValue() instanceof Object left_value){
                     var right = visit(ast.getRight());
@@ -338,25 +362,43 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
 
             case "+":
                 if (left.getValue() instanceof BigDecimal left_value) {
+                    // if left decimal value
                     var right = visit(ast.getRight());
+                    // check if it's decimal as well
                     if(right.getValue() instanceof BigDecimal right_value){
                         BigDecimal result = left_value.add(right_value);
                         return new Environment.PlcObject(scope, result);
                     }
-                }
-
-                else if(left.getValue() instanceof BigInteger left_value) {
-                    var right = visit(ast.getRight());
-                    if (right.getValue() instanceof BigInteger right_value) {
-                        BigInteger result = left_value.add(right_value);
+                    else if(right.getValue() instanceof String s_value){
+                        String result = left_value + s_value;
                         return new Environment.PlcObject(scope, result);
+                    }
+                    else{
+                        throw new RuntimeException("left value type does not match right value type");
                     }
                 }
 
-                else {
+                else if(left.getValue() instanceof BigInteger left_value) {
+                    // if left integer value
+                    var right = visit(ast.getRight());
+                    if (right.getValue() instanceof BigInteger right_value) {
+                        // check if it's integer as well
+                        BigInteger result = left_value.add(right_value);
+                        return new Environment.PlcObject(scope, result);
+                    }
+                    else if(right.getValue() instanceof String s_value){
+                        String result = left_value + s_value;
+                        return new Environment.PlcObject(scope, result);
+                    }
+                    else{
+                        throw new RuntimeException("left value type does not match right value type");
+                    }
+                }
+
+                else { // if left String
                     var left_value = requireType(String.class, left);
                     var right = visit(ast.getRight());
-                    String result =  left_value + (requireType(String.class, right));
+                    String result =  left_value + right.getValue();
                     return new Environment.PlcObject(scope, result);
                 }
 
@@ -374,6 +416,7 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
                     BigInteger result = left_value.subtract(requireType(BigInteger.class, right));
                     return new Environment.PlcObject(scope, result);
                 }
+                break;
 
             case "*":
                 if (left.getValue() instanceof BigDecimal left_value) {
@@ -389,20 +432,38 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
                     BigInteger result = left_value.multiply(requireType(BigInteger.class, right));
                     return new Environment.PlcObject(scope, result);
                 }
+                break;
 
             case "/":
                 if (left.getValue() instanceof BigDecimal left_value) {
+                    // if left value decimal type
                     var right = visit(ast.getRight());
+                    requireType(BigDecimal.class, right);
                     if(right.getValue() instanceof BigDecimal right_value){
+                        if(right_value.compareTo(BigDecimal.ZERO) == 0){
+                            throw new RuntimeException("Zero division error");
+                        }
                         BigDecimal result = left_value.divide(right_value, RoundingMode.HALF_EVEN);
                         return new Environment.PlcObject(scope, result);
                     }
+                    else{
+                        throw new RuntimeException("Type unmatched");
+                    }
                 }
-                else{
+                else {
+                    // if left value integer type
                     var left_value = requireType(BigInteger.class, left);
                     var right = visit(ast.getRight());
-                    BigInteger result = left_value.divide(requireType(BigInteger.class, right));
-                    return new Environment.PlcObject(scope, result);
+                    if (right.getValue() instanceof BigInteger right_value) {
+                        // if right value also integer
+                        if (right_value.compareTo(BigInteger.ZERO) == 0) {
+                            throw new RuntimeException("Zero division error");
+                        }
+                        BigInteger result = left_value.divide(right_value);
+                        return new Environment.PlcObject(scope, result);
+                    } else {
+                        throw new RuntimeException("Type unmatched");
+                    }
                 }
 
             case "^":
@@ -419,6 +480,7 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
             default:
                 throw new RuntimeException("There is no such operator");
         }
+        throw new RuntimeException("There is no such operator");
     }
 
     @Override
@@ -453,10 +515,23 @@ public class Interpreter implements Ast.Visitor<Environment.PlcObject> {
         for (Ast.Expression arg : ast.getArguments()) {
             arguments.add(visit(arg));
         }
+        // what I want to do is the scope that the function is declared.
         Environment.Function function = scope.lookupFunction(ast.getName(), ast.getArguments().size());
-
+//        while(scope.getParent() != null){
+//            var curr = scope;
+//            try{
+//                scope = scope.getParent();
+//                scope.lookupFunction(ast.getName(), ast.getArguments().size());
+//            }
+//            catch (RuntimeException e){
+//                scope = curr;
+//                break;
+//            }
+//        }
         return function.invoke(arguments);
     }
+
+
 
     @Override
     public Environment.PlcObject visit(Ast.Expression.PlcList ast) {

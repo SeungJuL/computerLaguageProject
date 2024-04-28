@@ -67,10 +67,22 @@ public final class Parser {
      */
     public Ast.Global parseList() throws ParseException {
 //        list ::= 'LIST' identifier '=' '[' expression (',' expression)* ']'
+        //list ::= 'LIST' identifier ':' identifier '=' '[' expression (',' expression)* ']'
 //        LIST list = [expr];
         if(!match(Token.Type.IDENTIFIER))
             throw new ParseException("Missing : Identifier", get_index(tokens));
         String name = tokens.get(-1).getLiteral();
+
+        if(!match(":")){
+            throw new ParseException("Missing : colon for type name", get_index(tokens));
+        }
+
+        if(!match(Token.Type.IDENTIFIER))
+            throw new ParseException("Missing : Identifier", get_index(tokens));
+
+        String type_name = tokens.get(-1).getLiteral();
+
+
         if(!match("=", "["))
             throw new ParseException("Missing : = or [", get_index(tokens));
 
@@ -87,7 +99,7 @@ public final class Parser {
            throw new ParseException("Missing : ;", get_index(tokens));
 
 
-        return new Ast.Global(name, true, Optional.of(value));
+        return new Ast.Global(name, type_name, true, Optional.of(value));
     }
 
     /**
@@ -99,16 +111,26 @@ public final class Parser {
         if(!match(Token.Type.IDENTIFIER))
             throw new ParseException("Missing : Identifier", get_index(tokens));
         String name = tokens.get(-1).getLiteral();
+
+        if(!match(":")){
+            throw new ParseException("Missing : colon for type name", get_index(tokens));
+        }
+
+        if(!match(Token.Type.IDENTIFIER))
+            throw new ParseException("Missing : Identifier", get_index(tokens));
+
+        String type_name = tokens.get(-1).getLiteral();
+
         if(match("=")){
             Ast.Expression exp = parseExpression();
             if(!match(";"))
                 throw new ParseException("Missing : ;", get_index(tokens));
-            return new Ast.Global(name, true, Optional.of(exp));
+            return new Ast.Global(name, type_name, true, Optional.of(exp));
         }
 
         if(!match(";"))
             throw new ParseException("Missing : ;", get_index(tokens));
-        return new Ast.Global(name, true, Optional.empty());
+        return new Ast.Global(name, type_name,true, Optional.empty());
     }
 
     /**
@@ -121,6 +143,15 @@ public final class Parser {
             throw new ParseException("Missing : Identifier", get_index(tokens));
         String name = tokens.get(-1).getLiteral(); // name
 
+        if(!match(":")){
+            throw new ParseException("Missing : colon for type name", get_index(tokens));
+        }
+
+        if(!match(Token.Type.IDENTIFIER))
+            throw new ParseException("Missing : Identifier", get_index(tokens));
+
+        String type_name = tokens.get(-1).getLiteral();
+
         if(!match("="))
             throw new ParseException("Missing : =", get_index(tokens));
 
@@ -129,7 +160,7 @@ public final class Parser {
         if(!match(";"))
             throw new ParseException("Missing : ;", get_index(tokens));
 
-        return new Ast.Global(name, false, Optional.of(exp));
+        return new Ast.Global(name, type_name, false, Optional.of(exp));
     }
 
     /**
@@ -138,6 +169,7 @@ public final class Parser {
      */
     public Ast.Function parseFunction() throws ParseException {
         //'FUN' identifier '(' (identifier (',' identifier)* )? ')' 'DO' block 'END'
+        //'FUN' identifier '(' (identifier ':' identifier (',' identifier ':' identifier)* )? ')' (':' identifier)? 'DO' block 'END'
         match("FUN");
         if(!match(Token.Type.IDENTIFIER))
             throw new ParseException("Missing : Identifier", get_index(tokens));
@@ -147,16 +179,49 @@ public final class Parser {
             throw new ParseException("Missing : (", get_index(tokens));
 
         List<String> parameters = new ArrayList<>();
+        List<String> parameter_types = new ArrayList<>();
+
+        // parameters
         if(match(Token.Type.IDENTIFIER)){
             parameters.add(tokens.get(-1).getLiteral());
+
+            if(!match(":")){
+                throw new ParseException("Missing : colon for type name", get_index(tokens));
+            }
+
+            if(!match(Token.Type.IDENTIFIER))
+                throw new ParseException("Missing : Identifier", get_index(tokens));
+
+            parameter_types.add(tokens.get(-1).getLiteral());
+
             while(match(",")){
                 if(!match(Token.Type.IDENTIFIER))
                     throw new ParseException("Missing : Identifier", get_index(tokens));
                 parameters.add(tokens.get(-1).getLiteral());
+
+                if(!match(":")){
+                    throw new ParseException("Missing : colon for type name", get_index(tokens));
+                }
+
+                if(!match(Token.Type.IDENTIFIER))
+                    throw new ParseException("Missing : Identifier", get_index(tokens));
+
+                parameter_types.add(tokens.get(-1).getLiteral());
             }
         }
         if(!match(")"))
             throw new ParseException("Missing : )", get_index(tokens));
+
+        // return type
+        String return_type = "";
+        if(match(":")){
+            if(!match(Token.Type.IDENTIFIER))
+                throw new ParseException("Missing : Identifier", get_index(tokens));
+
+            return_type = tokens.get(-1).getLiteral();
+        }
+
+        // statements
         if(!match("DO"))
             throw new ParseException("Missing : DO", get_index(tokens));
 
@@ -165,7 +230,12 @@ public final class Parser {
         if(!match("END"))
             throw new ParseException("Missing : END", get_index(tokens));
 
-        return new Ast.Function(name, parameters, statements);
+        if(return_type.isEmpty()){ // if return type is empty
+            return new Ast.Function(name, parameters, parameter_types, Optional.empty(), statements);
+        }
+        else{
+            return new Ast.Function(name, parameters, parameter_types, Optional.of(return_type), statements);
+        }
     }
 
     /**
@@ -174,7 +244,7 @@ public final class Parser {
      */
     public List<Ast.Statement> parseBlock() throws ParseException {  // not sure about this
         List<Ast.Statement> statements = new ArrayList<>();
-        while(!peek("DEFAULT") && !peek("ELSE") && !peek("END"))
+        while(!peek("DEFAULT") && !peek("ELSE") && !peek("END") && !peek("CASE"))
             statements.add(parseStatement());
         return statements;
     }
@@ -225,20 +295,43 @@ public final class Parser {
      * method should only be called if the next tokens start a declaration
      * statement, aka {@code LET}.
      */
+
+    //statement ::= 'LET' identifier (':' identifier)? ('=' expression)? ';'
     public Ast.Statement.Declaration parseDeclarationStatement() throws ParseException {
         if(match(Token.Type.IDENTIFIER)){
             String name = tokens.get(-1).getLiteral();
-            if(match("=")){
-                Ast.Expression exp = parseExpression();
+
+            if(match(":")){ // if type exist
+                if(!match(Token.Type.IDENTIFIER))
+                    throw new ParseException("Missing : Identifier", get_index(tokens));
+
+                String type_name = tokens.get(-1).getLiteral();
+
+                if(match("=")){
+                    Ast.Expression exp = parseExpression();
+                    if(!match(";"))
+                        throw new ParseException("Missing ;", get_index(tokens));
+
+                    return new Ast.Statement.Declaration(name, Optional.of(type_name), Optional.of(exp));
+                }
                 if(!match(";"))
                     throw new ParseException("Missing ;", get_index(tokens));
 
-                return new Ast.Statement.Declaration(name, Optional.of(exp));
+                return new Ast.Statement.Declaration(name, Optional.of(type_name), Optional.empty());
             }
-            if(!match(";"))
-                throw new ParseException("Missing ;", get_index(tokens));
+            else{ //if not exist
+                if(match("=")){
+                    Ast.Expression exp = parseExpression();
+                    if(!match(";"))
+                        throw new ParseException("Missing ;", get_index(tokens));
 
-            return new Ast.Statement.Declaration(name, Optional.empty());
+                    return new Ast.Statement.Declaration(name, Optional.empty(), Optional.of(exp));
+                }
+                if(!match(";"))
+                    throw new ParseException("Missing ;", get_index(tokens));
+
+                return new Ast.Statement.Declaration(name, Optional.empty(), Optional.empty());
+            }
         }
         throw new ParseException("identifier missing", get_index(tokens));
     }

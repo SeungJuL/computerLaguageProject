@@ -5,17 +5,22 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="01bf8879-cd1d-4559-b788-aad81e6cebd7" name="Changes" comment="For test purpose2">
-      <change afterPath="$PROJECT_DIR$/src/main/java/plc/project/Analyzer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/plc/project/InterpreterBaselineTests.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/plc/project/ParserModifiedTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/plc/project/Generator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/plc/project/AnalyzerTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/plc/project/EndToEndGeneratorTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/plc/project/EndToEndInterpreterTests.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/plc/project/GeneratorTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Ast.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Ast.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Environment.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Environment.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Analyzer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Analyzer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Interpreter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Interpreter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Scope.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Scope.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Lexer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Lexer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/plc/project/Parser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/plc/project/Parser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/plc/project/InterpreterBaselineTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/plc/project/InterpreterBaselineTests.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/test/java/plc/project/InterpreterTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/plc/project/InterpreterTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/plc/project/ParserTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/plc/project/ParserTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/plc/project/LexerTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/plc/project/LexerTests.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/plc/project/ParserExpressionTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/plc/project/ParserExpressionTests.java" afterDir="false" />
     </list>
+    <list id="2ce9e9a4-7bdb-4d0b-9bac-2e99418afc8c" name="Changes by ajimenez" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -49,6 +54,9 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -60,72 +68,108 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
-    &quot;Downloaded.Files.Path.Enabled&quot;: &quot;false&quot;,
-    &quot;Gradle.InterpreterBaselineTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testAccessExpression (1).executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testAccessExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testBinaryExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testExpressionStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testFunctionExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testGroupExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testIfStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testListAccessExpression.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.InterpreterTests.testListAssignmentStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testLiteralExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testLogarithmExpressionStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testPlcList.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testSource.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.InterpreterTests.testSwitchStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testCharacter.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testDecimal.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testExamples.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testIdentifier.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testInteger.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testMixed.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testOperator.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testString.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.LexerTests.testWhitespace.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testAccessExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testAssignmentStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testBinaryExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testException (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.ParserExpressionTests.testException.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testExceptionStatement (1).executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.ParserExpressionTests.testExceptionStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testExpressionStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testFunctionExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testGroupExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserExpressionTests.testLiteralExpression.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserTests.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserTests.testExample1.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserTests.testIfStatement.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.ParserTests.testSource.executor&quot;: &quot;Run&quot;,
-    &quot;Repository.Attach.Annotations&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.JavaDocs&quot;: &quot;false&quot;,
-    &quot;Repository.Attach.Sources&quot;: &quot;false&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;sj1&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Users/Seungju/UF/COP4020/PLC_Project&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
+    "Downloaded.Files.Path.Enabled": "false",
+    "Gradle.AnalyzerTests.executor": "Run",
+    "Gradle.AnalyzerTests.testAccessExpression.executor": "Run",
+    "Gradle.AnalyzerTests.testAssignmentStatement.executor": "Run",
+    "Gradle.AnalyzerTests.testBinaryExpression.executor": "Run",
+    "Gradle.AnalyzerTests.testDeclarationStatement.executor": "Run",
+    "Gradle.AnalyzerTests.testFunction.executor": "Run",
+    "Gradle.AnalyzerTests.testFunctionExpression.executor": "Run",
+    "Gradle.AnalyzerTests.testGlobal (1).executor": "Debug",
+    "Gradle.AnalyzerTests.testGlobal.executor": "Run",
+    "Gradle.AnalyzerTests.testIfStatement (1).executor": "Debug",
+    "Gradle.AnalyzerTests.testIfStatement.executor": "Run",
+    "Gradle.AnalyzerTests.testLiteralExpression.executor": "Run",
+    "Gradle.AnalyzerTests.testRequireAssignable.executor": "Run",
+    "Gradle.AnalyzerTests.testSource (1).executor": "Run",
+    "Gradle.AnalyzerTests.testSource (2).executor": "Run",
+    "Gradle.AnalyzerTests.testSource.executor": "Run",
+    "Gradle.AnalyzerTests.testSwitchStatement.executor": "Run",
+    "Gradle.EndToEndGeneratorTests.executor": "Run",
+    "Gradle.EndToEndGeneratorTests.testSwitchStatement.executor": "Run",
+    "Gradle.EndToEndInterpreterTests.executor": "Run",
+    "Gradle.GeneratorTests.executor": "Run",
+    "Gradle.GeneratorTests.testBinaryExpression.executor": "Run",
+    "Gradle.GeneratorTests.testDeclarationStatement.executor": "Run",
+    "Gradle.GeneratorTests.testFunctionExpression.executor": "Run",
+    "Gradle.GeneratorTests.testIfStatement.executor": "Run",
+    "Gradle.GeneratorTests.testList.executor": "Run",
+    "Gradle.GeneratorTests.testSource.executor": "Run",
+    "Gradle.InterpreterBaselineTests.executor": "Run",
+    "Gradle.InterpreterBaselineTests.testCustomFunction.executor": "Run",
+    "Gradle.InterpreterBaselineTests.testExpressionStatement.executor": "Run",
+    "Gradle.InterpreterTests.executor": "Run",
+    "Gradle.InterpreterTests.testAccessExpression (1).executor": "Run",
+    "Gradle.InterpreterTests.testAccessExpression.executor": "Run",
+    "Gradle.InterpreterTests.testBinaryExpression.executor": "Run",
+    "Gradle.InterpreterTests.testExpressionStatement.executor": "Run",
+    "Gradle.InterpreterTests.testFunctionExpression.executor": "Run",
+    "Gradle.InterpreterTests.testGroupExpression.executor": "Run",
+    "Gradle.InterpreterTests.testIfStatement.executor": "Run",
+    "Gradle.InterpreterTests.testListAccessExpression.executor": "Debug",
+    "Gradle.InterpreterTests.testListAssignmentStatement.executor": "Run",
+    "Gradle.InterpreterTests.testLiteralExpression.executor": "Run",
+    "Gradle.InterpreterTests.testLogarithmExpressionStatement.executor": "Run",
+    "Gradle.InterpreterTests.testPlcList.executor": "Run",
+    "Gradle.InterpreterTests.testSource.executor": "Run",
+    "Gradle.InterpreterTests.testSwitchStatement.executor": "Run",
+    "Gradle.LexerTests.executor": "Run",
+    "Gradle.LexerTests.testCharacter (1).executor": "Debug",
+    "Gradle.LexerTests.testCharacter.executor": "Run",
+    "Gradle.LexerTests.testDecimal.executor": "Run",
+    "Gradle.LexerTests.testExamples.executor": "Run",
+    "Gradle.LexerTests.testIdentifier.executor": "Run",
+    "Gradle.LexerTests.testInteger.executor": "Run",
+    "Gradle.LexerTests.testMixed.executor": "Run",
+    "Gradle.LexerTests.testOperator.executor": "Run",
+    "Gradle.LexerTests.testString.executor": "Run",
+    "Gradle.LexerTests.testWhitespace.executor": "Run",
+    "Gradle.ParserExpressionTests.executor": "Run",
+    "Gradle.ParserExpressionTests.testAccessExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testAssignmentStatement.executor": "Run",
+    "Gradle.ParserExpressionTests.testBinaryExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testException (1).executor": "Debug",
+    "Gradle.ParserExpressionTests.testException.executor": "Run",
+    "Gradle.ParserExpressionTests.testExceptionStatement (1).executor": "Debug",
+    "Gradle.ParserExpressionTests.testExceptionStatement.executor": "Run",
+    "Gradle.ParserExpressionTests.testExpressionStatement.executor": "Run",
+    "Gradle.ParserExpressionTests.testFunctionExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testGroupExpression.executor": "Run",
+    "Gradle.ParserExpressionTests.testLiteralExpression.executor": "Run",
+    "Gradle.ParserModifiedTests.executor": "Run",
+    "Gradle.ParserModifiedTests.testDeclarationStatement.executor": "Run",
+    "Gradle.ParserModifiedTests.testExample1.executor": "Run",
+    "Gradle.ParserModifiedTests.testSource.executor": "Run",
+    "Gradle.ParserTests.executor": "Run",
+    "Gradle.ParserTests.testExample1.executor": "Run",
+    "Gradle.ParserTests.testIfStatement.executor": "Run",
+    "Gradle.ParserTests.testSource.executor": "Run",
+    "Repository.Attach.Annotations": "false",
+    "Repository.Attach.JavaDocs": "false",
+    "Repository.Attach.Sources": "false",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "sj1",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/Seungju/UF/COP4020/PLC_Project",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager" selected="Gradle.InterpreterTests.testLogarithmExpressionStatement">
-    <configuration name="InterpreterBaselineTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+}]]></component>
+  <component name="RunManager" selected="Gradle.EndToEndInterpreterTests">
+    <configuration name="EndToEndGeneratorTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -138,7 +182,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.InterpreterBaselineTests&quot;" />
+            <option value="&quot;plc.project.EndToEndGeneratorTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -149,7 +193,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="InterpreterTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="EndToEndGeneratorTests.testSwitchStatement" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -162,7 +206,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.InterpreterTests&quot;" />
+            <option value="&quot;plc.project.EndToEndGeneratorTests.testSwitchStatement&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -173,7 +217,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="InterpreterTests.testLogarithmExpressionStatement" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="EndToEndInterpreterTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -186,7 +230,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.InterpreterTests.testLogarithmExpressionStatement&quot;" />
+            <option value="&quot;plc.project.EndToEndInterpreterTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -197,7 +241,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="InterpreterTests.testSource" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ParserExpressionTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -210,7 +254,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.InterpreterTests.testSource&quot;" />
+            <option value="&quot;plc.project.ParserExpressionTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -221,7 +265,7 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="InterpreterTests.testSwitchStatement" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="ParserModifiedTests" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -234,7 +278,7 @@
           <list>
             <option value=":test" />
             <option value="--tests" />
-            <option value="&quot;plc.project.InterpreterTests.testSwitchStatement&quot;" />
+            <option value="&quot;plc.project.ParserModifiedTests&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -247,11 +291,11 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.InterpreterTests.testLogarithmExpressionStatement" />
-        <item itemvalue="Gradle.InterpreterBaselineTests" />
-        <item itemvalue="Gradle.InterpreterTests" />
-        <item itemvalue="Gradle.InterpreterTests.testSource" />
-        <item itemvalue="Gradle.InterpreterTests.testSwitchStatement" />
+        <item itemvalue="Gradle.EndToEndInterpreterTests" />
+        <item itemvalue="Gradle.ParserModifiedTests" />
+        <item itemvalue="Gradle.ParserExpressionTests" />
+        <item itemvalue="Gradle.EndToEndGeneratorTests" />
+        <item itemvalue="Gradle.EndToEndGeneratorTests.testSwitchStatement" />
       </list>
     </recent_temporary>
   </component>
@@ -324,6 +368,41 @@
       <workItem from="1710882215729" duration="12000" />
       <workItem from="1710900745515" duration="600000" />
       <workItem from="1710903219232" duration="652000" />
+      <workItem from="1711063993304" duration="9010000" />
+      <workItem from="1711080462135" duration="292000" />
+      <workItem from="1711232004955" duration="2536000" />
+      <workItem from="1711299730924" duration="22819000" />
+      <workItem from="1711398154792" duration="4250000" />
+      <workItem from="1711470850259" duration="5021000" />
+      <workItem from="1711483640739" duration="442000" />
+      <workItem from="1711488910262" duration="1161000" />
+      <workItem from="1711550237820" duration="1456000" />
+      <workItem from="1711733009014" duration="563000" />
+      <workItem from="1712014187547" duration="718000" />
+      <workItem from="1712166113241" duration="210000" />
+      <workItem from="1712202439873" duration="1721000" />
+      <workItem from="1712253312433" duration="8119000" />
+      <workItem from="1712262815611" duration="134000" />
+      <workItem from="1712336173408" duration="33000" />
+      <workItem from="1712336227548" duration="28000" />
+      <workItem from="1712336798628" duration="17000" />
+      <workItem from="1712979643746" duration="1238000" />
+      <workItem from="1713026366382" duration="14000" />
+      <workItem from="1713032801353" duration="3726000" />
+      <workItem from="1713039055101" duration="94000" />
+      <workItem from="1713039165120" duration="14000" />
+      <workItem from="1713133362139" duration="1256000" />
+      <workItem from="1713293633949" duration="140000" />
+      <workItem from="1713293944945" duration="20000" />
+      <workItem from="1713470011662" duration="524000" />
+      <workItem from="1713496356881" duration="10793000" />
+      <workItem from="1713557175976" duration="2842000" />
+      <workItem from="1713727284492" duration="1044000" />
+      <workItem from="1713728632785" duration="3000" />
+      <workItem from="1713812503115" duration="9794000" />
+      <workItem from="1713898289609" duration="3292000" />
+      <workItem from="1713992820314" duration="76000" />
+      <workItem from="1714165951722" duration="2975000" />
     </task>
     <task id="LOCAL-00001" summary="FIRST">
       <option name="closed" value="true" />
@@ -367,7 +446,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/plc/project/ParserExpressionTests.java</url>
-          <line>405</line>
+          <line>409</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
@@ -377,35 +456,78 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/src/test/java/plc/project/ParserExpressionTests.java</url>
-          <line>274</line>
+          <line>278</line>
           <option name="timeStamp" value="27" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/src/test/java/plc/project/InterpreterTests.java</url>
-          <line>17</line>
-          <option name="timeStamp" value="31" />
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Interpreter.java</url>
+          <line>343</line>
+          <option name="timeStamp" value="61" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
-          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Parser.java</url>
-          <line>402</line>
-          <properties class="plc.project.Parser" method="parsePrimaryExpression">
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Interpreter.java</url>
+          <line>266</line>
+          <properties class="plc.project.Interpreter" method="visit">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />
           </properties>
-          <option name="timeStamp" value="28" />
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Parser.java</url>
+          <line>108</line>
+          <properties class="plc.project.Parser" method="parseMutable">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="43" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Analyzer.java</url>
+          <line>70</line>
+          <properties class="plc.project.Analyzer" method="visit">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="51" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Analyzer.java</url>
+          <line>308</line>
+          <properties class="plc.project.Analyzer" method="visit">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="53" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/main/java/plc/project/Parser.java</url>
+          <line>256</line>
+          <properties class="plc.project.Parser" method="parseStatement">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="63" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
+        <PinnedItemInfo parentTag="plc.project.Ast$Function" memberName="statements" />
         <PinnedItemInfo parentTag="plc.project.Environment$Variable" memberName="name" />
         <PinnedItemInfo parentTag="plc.project.Environment$Variable" memberName="mutable" />
+        <PinnedItemInfo parentTag="java.util.HashMap$Node" memberName="value" />
+        <PinnedItemInfo parentTag="plc.project.Scope" memberName="functions" />
       </pinned-members>
     </pin-to-top-manager>
     <watches-manager>
       <configuration name="GradleRunConfiguration">
         <watch expression="exp" />
         <watch expression="name.value" />
+        <watch expression="((HashMap.Node)((HashMap)scope.functions).entrySet().toArray()[1]).getValue()" custom="java.util.HashMap.Node,java.util.HashMap" />
+        <watch expression="((HashMap.Node)((HashMap)scope.functions).entrySet().toArray()[1]).getValue()" custom="java.util.HashMap.Node,java.util.HashMap" />
+        <watch expression="ast.arguments" />
+        <watch expression="c" />
       </configuration>
     </watches-manager>
   </component>

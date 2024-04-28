@@ -24,7 +24,8 @@ public class LexerTests {
                 Arguments.of("Alphanumeric", "thelegend27", true),
                 Arguments.of("Single Character", "a", true),
                 Arguments.of("Hyphenated", "a-b-c", true),
-                Arguments.of("Underscores", "___", false),
+                Arguments.of("at", "@abc", true),
+                Arguments.of("Underscores", "_abc", false),
                 Arguments.of("Leading Hyphen", "-five", false),
                 Arguments.of("Leading Digit", "1fish2fish3fishbluefish", false)
         );
@@ -76,6 +77,7 @@ public class LexerTests {
         return Stream.of(
                 Arguments.of("Alphabetic", "\'c\'", true),
                 Arguments.of("Newline Escape", "\'\\n\'", true),
+                Arguments.of("Escape", "\'\\\'", true),
                 Arguments.of("Unterminated", "\'", false),
                 Arguments.of("Newline", "\'\n\'", false),
                 Arguments.of("Empty", "\'\'", false),
@@ -89,15 +91,18 @@ public class LexerTests {
         test(input, Token.Type.STRING, success);
     }
 
-    private static Stream<Arguments> testString() {
+    private static Stream<Arguments> testString() { //"\"unterminated"
         return Stream.of(
+                Arguments.of("special escapes", "\"sq\\\'dq\\\"bs\\\\\"", true),
                 Arguments.of("Empty", "\"\"", true),
                 Arguments.of("string with white space", "\"my name\"", true),
                 Arguments.of("Alphabetic", "\"abc\"", true),
+                Arguments.of("exception", "\"unterminated", false),
                 Arguments.of("Symbols", "\"!@#$%^&*()\"", true),
                 Arguments.of("Newline Escape", "\"Hello,\\nWorld\"", true),
+                Arguments.of("Hello world", "\"Hello, World!\"", true),
                 Arguments.of("Unterminated", "\"unterminated", false),
-                Arguments.of("Newline Unterminated", "\"unterminated\n\"", true),
+                Arguments.of("Newline Unterminated", "\"unterminated\n\"", false),
                 Arguments.of("Invalid Escape", "\"invalid\\escape\"", false)
         );
     }
@@ -111,10 +116,12 @@ public class LexerTests {
 
     private static Stream<Arguments> testOperator() {
         return Stream.of(
+                Arguments.of("Equals", "\\\'c", true),
                 Arguments.of("Equals", "==", true),
                 Arguments.of("Character", "(", true),
                 Arguments.of("Comparison", "!=", true),
                 Arguments.of("Symbol", "$", true),
+                Arguments.of("minus", "-", true),
                 Arguments.of("Space", " ", false),
                 Arguments.of("Tab", "\t", false),
                 Arguments.of("Plus Sign", "+", true)
@@ -129,6 +136,9 @@ public class LexerTests {
 
     private static Stream<Arguments> testWhitespace() {
         return Stream.of(
+                Arguments.of("Trailing Whitespace", "token    ", Arrays.asList(
+                        new Token(Token.Type.IDENTIFIER, "token", 0)
+                )),
                 Arguments.of("Multiple Spaces", "one   two", Arrays.asList(
                         new Token(Token.Type.IDENTIFIER, "one", 0),
                         new Token(Token.Type.IDENTIFIER, "two", 6)
@@ -177,20 +187,32 @@ public class LexerTests {
 
     private static Stream<Arguments> testExamples() {
         return Stream.of(
-                Arguments.of("Example 1", "LET x = 5;", Arrays.asList(
-                        new Token(Token.Type.IDENTIFIER, "LET", 0),
-                        new Token(Token.Type.IDENTIFIER, "x", 4),
-                        new Token(Token.Type.OPERATOR, "=", 6),
-                        new Token(Token.Type.INTEGER, "5", 8),
-                        new Token(Token.Type.OPERATOR, ";", 9)
-                )),
                 Arguments.of("Example 2", "print(\"Hello, World!\");", Arrays.asList(
                         new Token(Token.Type.IDENTIFIER, "print", 0),
                         new Token(Token.Type.OPERATOR, "(", 5),
                         new Token(Token.Type.STRING, "\"Hello, World!\"", 6),
                         new Token(Token.Type.OPERATOR, ")", 21),
                         new Token(Token.Type.OPERATOR, ";", 22)
+                )),
+                Arguments.of("Binary", "x + 1 == y / 2.0 - 3", Arrays.asList(
+                        new Token(Token.Type.IDENTIFIER, "x", 0),
+                        new Token(Token.Type.OPERATOR, "+", 2),
+                        new Token(Token.Type.INTEGER, "1", 4),
+                        new Token(Token.Type.OPERATOR, "==", 6),
+                        new Token(Token.Type.IDENTIFIER, "y", 9),
+                        new Token(Token.Type.OPERATOR, "/", 11),
+                        new Token(Token.Type.DECIMAL, "2.0", 13),
+                        new Token(Token.Type.OPERATOR, "-", 17),
+                        new Token(Token.Type.INTEGER, "3", 19)
+                )),
+                Arguments.of("Example 1", "LET x = 5;", Arrays.asList(
+                        new Token(Token.Type.IDENTIFIER, "LET", 0),
+                        new Token(Token.Type.IDENTIFIER, "x", 4),
+                        new Token(Token.Type.OPERATOR, "=", 6),
+                        new Token(Token.Type.INTEGER, "5", 8),
+                        new Token(Token.Type.OPERATOR, ";", 9)
                 ))
+
         );
     }
 

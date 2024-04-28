@@ -6,6 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import javax.swing.text.html.Option;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
@@ -25,6 +26,15 @@ final class InterpreterTests {
 
     private static Stream<Arguments> testSource() {
         return Stream.of(
+
+                // Global Access: VAR x = 1; FUN main() DO log(x); END
+                Arguments.of("Global Access", new Ast.Source(
+                        Arrays.asList(new Ast.Global("x", true, Optional.of(new Ast.Expression.Literal(BigInteger.ONE)))),
+                        Arrays.asList(new Ast.Function("main", Arrays.asList(), Arrays.asList(
+                                new Ast.Statement.Expression(new Ast.Expression.Function("print",
+                                        Arrays.asList(new Ast.Expression.Access(Optional.empty(), "x"))))))
+                        )), Environment.NIL.getValue()),
+
                 // FUN main() DO RETURN 0; END
                 Arguments.of("Main", new Ast.Source(
                         Arrays.asList(),
@@ -32,6 +42,7 @@ final class InterpreterTests {
                                 new Ast.Statement.Return(new Ast.Expression.Literal(BigInteger.ZERO)))
                         ))
                 ), BigInteger.ZERO),
+
                 // VAR x = 1; VAR y = 10; FUN main() DO x + y; END
                 Arguments.of("Globals & No Return", new Ast.Source(
                         Arrays.asList(
@@ -44,22 +55,6 @@ final class InterpreterTests {
                                         new Ast.Expression.Access(Optional.empty(), "y")                                ))
                         )))
                 ), Environment.NIL.getValue())
-
-//                Arguments.of("Globals & No Return", new Ast.Source(
-//                        Arrays.asList(
-//                                new Ast.Global("x", true, Optional.of(new Ast.Expression.Literal(BigInteger.ONE))),
-//                                new Ast.Global("y", true, Optional.of(new Ast.Expression.Literal(BigInteger.TWO))),
-//                                new Ast.Global("z", true, Optional.of(new Ast.Expression.Literal(BigInteger.valueOf(3))))
-//                        ),
-//                        Arrays.asList(new Ast.Function("f", Arrays.asList(), Arrays.asList(
-//                                new Ast.Statement.Return()
-//                        ))),
-//                        Arrays.asList(new Ast.Function("main", Arrays.asList(), Arrays.asList(
-//                                new Ast.Statement.Expression(new Ast.Expression.Binary("+",
-//                                        new Ast.Expression.Access(Optional.empty(), "x"),
-//                                        new Ast.Expression.Access(Optional.empty(), "y")                                ))
-//                        )))
-//                ), Environment.NIL.getValue())
 
         );
     }
@@ -205,6 +200,24 @@ final class InterpreterTests {
 
     private static Stream<Arguments> testIfStatement() {
         return Stream.of(
+                // True Condition: IF TRUE DO log(1); ELSE log(2); END
+                //Arrays.asList(
+                //                                new Ast.Statement.Expression(new Ast.Expression.Function("print",
+                //                                        Arrays.asList(new Ast.Expression.Access(Optional.empty(), "x")))))
+
+                Arguments.of("True Condition (2)",
+                        new Ast.Statement.If(
+                                new Ast.Expression.Literal(true),
+                                Arrays.asList(
+                                        new Ast.Statement.Expression(new Ast.Expression.Function("print", Arrays.asList(
+                                                new Ast.Expression.Literal(BigInteger.ONE)
+                                        )))),
+                                Arrays.asList(
+                                        new Ast.Statement.Expression(new Ast.Expression.Function("print",
+                                                Arrays.asList(new Ast.Expression.Literal(BigInteger.TWO)))))
+                        ),
+                        Environment.NIL.getValue()
+                ),
                 // IF TRUE DO num = 1; END
                 Arguments.of("True Condition",
                         new Ast.Statement.If(
@@ -331,6 +344,23 @@ final class InterpreterTests {
 
     private static Stream<Arguments> testBinaryExpression() {
         return Stream.of(
+
+                Arguments.of("Null equals",
+                        new Ast.Expression.Binary("==",
+                                new Ast.Expression.Literal(null),
+                                new Ast.Expression.Literal(null)
+                        ),
+                        true
+                ),
+
+                // 1.2 / 3.4
+                Arguments.of("Division",
+                        new Ast.Expression.Binary("/",
+                                new Ast.Expression.Literal(new BigInteger("1")),
+                                new Ast.Expression.Literal(new BigInteger("0"))
+                        ),
+                        null
+                ),
                 // TRUE && FALSE
                 Arguments.of("And",
                         new Ast.Expression.Binary("&&",
@@ -366,10 +396,10 @@ final class InterpreterTests {
                 // "a" + "b"
                 Arguments.of("Concatenation",
                         new Ast.Expression.Binary("+",
-                                new Ast.Expression.Literal("a"),
-                                new Ast.Expression.Literal("b")
+                                new Ast.Expression.Literal("b"),
+                                new Ast.Expression.Literal(BigDecimal.valueOf(0.1))
                         ),
-                        "ab"
+                        "b0.1"
                 ),
                 // 1 + 10
                 Arguments.of("Addition",
@@ -378,14 +408,6 @@ final class InterpreterTests {
                                 new Ast.Expression.Literal(BigInteger.TEN)
                         ),
                         BigInteger.valueOf(11)
-                ),
-                // 1.2 / 3.4
-                Arguments.of("Division",
-                        new Ast.Expression.Binary("/",
-                                new Ast.Expression.Literal(new BigDecimal("1.2")),
-                                new Ast.Expression.Literal(new BigDecimal("3.4"))
-                        ),
-                        new BigDecimal("0.4")
                 )
         );
     }
