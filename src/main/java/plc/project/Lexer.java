@@ -55,10 +55,12 @@ public final class Lexer {
      */
     public Token lexToken() {
         // Identifier
-        if(peek("[A-Za-z@_]"))
+        if(peek("[A-Za-z@]"))
             return lexIdentifier();
         // Number
-        else if(peek("[0-9-]"))
+        else if(peek("[0-9]"))
+            return lexNumber();
+        else if(peek("-", "[0-9]"))
             return lexNumber();
         // Character
         else if(peek("\'"))
@@ -69,6 +71,8 @@ public final class Lexer {
         // Any white space character
         else if(peek("[ \b\n\r\t]")){
             lexEscape();
+            if(chars.has(0))
+                return null;
             return lexToken();
         }
         // Operator
@@ -172,33 +176,39 @@ public final class Lexer {
 
     public Token lexCharacter() {
         match("\'");
-        if (match("\\\\", "[bnrt\'\"]")) {
+        if (match("\\\\")) {
+            if (peek("[bnrt\'\"]", "\'")){
+                match("[bnrt\'\"]");
+            }
             if (match("\'"))
                 return chars.emit(Token.Type.CHARACTER);
             else
                 throw new ParseException("Closing single quote is necessary", chars.index);
-
         }
         else if (match(".")) {
             if (match("\'"))
                 return chars.emit(Token.Type.CHARACTER);
             else
-                throw new ParseException("One character is expected", chars.index);
+                throw new ParseException("Closing Single quote is necessary", chars.index);
         }
         else
-            throw new ParseException("Undefined behavior", chars.index);
+            throw new ParseException("One character is expected", chars.index);
     }
-
-
 
     public Token lexString() {
         match("\"");
         while(!peek("\"")) {
             if (peek("\\\\")) {
                 match("\\\\");
-                if (!match("[bnrt\'\"]")) {
+                if (peek("[bnrt\'\"\\\\]")) {
+                    match("[bnrt\'\"\\\\]");
+                }
+                else{
                     throw new ParseException("Invalid escape sequence", chars.index);
                 }
+            }
+            else if(peek("[\n\r]")){
+                throw new ParseException("Cannot define string with different line", chars.index);
             }
             else if (!match("[^\"]")) {
                 throw new ParseException("Undefined behavior", chars.index);
@@ -207,6 +217,7 @@ public final class Lexer {
         match("\"");
         return chars.emit(Token.Type.STRING);
     }
+
 
     public void lexEscape() {
         match("[ \b\n\r\t]");
@@ -239,7 +250,7 @@ public final class Lexer {
         else if(match("[^\s]"))
             return chars.emit(Token.Type.OPERATOR);
 
-        throw new ParseException("undefined behavior", chars.index);
+        throw new ParseException("undefined behavior oper", chars.index);
     }
 
     /**

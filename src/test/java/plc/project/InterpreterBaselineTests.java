@@ -66,6 +66,7 @@ public final class InterpreterBaselineTests {
         Assertions.assertEquals("1", builder.toString());
     }
 
+
     /**
      * Tests that visiting an expression statement evaluates the expression and
      * returns {@code NIL}. This tests relies on function calls.
@@ -80,9 +81,19 @@ public final class InterpreterBaselineTests {
             builder.append(args.get(0).getValue());
             return args.get(0);
         });
-        test(new Ast.Statement.Expression(new Ast.Expression.Function("log", Arrays.asList(
-                new Ast.Expression.Literal(BigInteger.ONE)
-        ))), Environment.NIL.getValue(), scope);
+        test(new Ast.Statement.If(
+                        new Ast.Expression.Literal(true),
+                        Arrays.asList(
+                                new Ast.Statement.Expression(new Ast.Expression.Function("log", Arrays.asList(
+                                        new Ast.Expression.Literal(BigInteger.ONE)
+                                )))),
+                        Arrays.asList(
+                                new Ast.Statement.Expression(new Ast.Expression.Function("log", Arrays.asList(
+                                        new Ast.Expression.Literal(BigInteger.TWO)
+                                ))))
+                )
+                , Environment.NIL.getValue(), scope);
+
         Assertions.assertEquals("1", builder.toString());
     }
 
@@ -96,6 +107,44 @@ public final class InterpreterBaselineTests {
         scope.defineFunction("main", 0, args -> Environment.create(BigInteger.ZERO));
         test(new Ast.Source(Arrays.asList(), Arrays.asList()), BigInteger.ZERO, scope);
     }
+
+
+    @Test
+    void testCustomFunction() {
+        Ast.Source source = new Ast.Source(
+                Arrays.asList(
+                        new Ast.Global("x", true, Optional.of(new Ast.Expression.Literal(BigInteger.ONE))),
+                        new Ast.Global("y", true, Optional.of(new Ast.Expression.Literal(BigInteger.valueOf(2)))),
+                        new Ast.Global("z", true, Optional.of(new Ast.Expression.Literal(BigInteger.valueOf(3))))
+                ),
+                Arrays.asList(
+                        new Ast.Function("f", Arrays.asList("z"), Arrays.asList(
+                                new Ast.Statement.Return(
+                                        new Ast.Expression.Binary("+",
+                                                new Ast.Expression.Binary("+",
+                                                        new Ast.Expression.Access(Optional.empty(), "x"),
+                                                        new Ast.Expression.Access(Optional.empty(), "y")
+                                                ),
+                                                new Ast.Expression.Access(Optional.empty(), "z")
+                                        )
+                                )
+                        )),
+                        new Ast.Function("main", Arrays.asList(), Arrays.asList(
+                                new Ast.Statement.Declaration("y", Optional.empty(), Optional.of(new Ast.Expression.Literal(BigInteger.valueOf(4)))),
+                                new Ast.Statement.Return(
+                                        new Ast.Expression.Function("f", Arrays.asList(new Ast.Expression.Literal(BigInteger.valueOf(5))))
+                                )
+                        ))
+                )
+        );
+
+
+        Interpreter interpreter = new Interpreter(null);
+        Environment.PlcObject result = interpreter.visit(source);
+        Assertions.assertEquals(BigInteger.valueOf(8), result.getValue());
+    }
+
+
 
     private static void test(Ast ast, Object expected, Scope scope) {
         Interpreter interpreter = new Interpreter(scope);
